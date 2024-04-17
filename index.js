@@ -37,7 +37,12 @@ app.post('/users', (req, res) => {
         'INSERT INTO `users` (`fname`, `lname`, `username`, `password`, `avatar`) VALUES (?, ?, ?, ?, ?)',
         [req.body.fname, req.body.lanme, req.body.username, req.body.password, req.body.avatar],
          function (err, results, fields) {
-            res.send(results)
+            if (err) {
+                console.error('Error in POST /users:', err);
+                res.status(500).send('Error adding user');
+            } else {
+                res.status(201).send(results);
+            }
         }
     )
 })
